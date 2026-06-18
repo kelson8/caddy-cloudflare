@@ -1,5 +1,14 @@
 
 # Caddy Cloudflare
+This fork adds the rate limit plugin, and the ipfilter plugin.
+
+I need to test this a bit.
+
+Here is a link to the original project
+* https://github.com/CaddyBuilds/caddy-cloudflare
+
+----
+
 > A fully integrated Caddy Docker image featuring Cloudflare DNS-01 ACME validation
 
 Deploy a hassle-free Caddy server with built-in support for Cloudflare DNS-01 ACME challenges. Streamline your SSL certificate management and ensure your server stays secure without manual updates, making it an effortless and reliable solution.
