@@ -15,6 +15,7 @@ Here is a bit of a guide on logging for Caddy
 I have moved the `Caddyfile_global` file into `data/caddy/Caddyfile` and I setup some more examples to use in it.
 
 **New check ips script**
+
 I have a added the [check-ips.py](scripts/check-ips.py) script which allows you to view the IPs from the log files, it doesn't require any dependencies and works with Python 3.
 
 ## New Caddyfile
