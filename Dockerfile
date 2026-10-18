@@ -5,7 +5,7 @@ FROM caddy:${CADDY_VERSION}-builder AS builder
 # Build Caddy with the Cloudflare DNS module
 # Newly added:
 # Rate limit module, and ipfilter-caddy
-# TODO Test these, I will try to apply this later.
+# These work and are currently in use for my main website.
 RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare \
     --with github.com/WeidiDeng/caddy-cloudflare-ip \

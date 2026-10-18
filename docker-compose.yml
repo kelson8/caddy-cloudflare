@@ -1,0 +1,51 @@
+services:
+  caddy:
+    container_name: caddy
+    # Switched to custom build for this
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # Originally was using this image.
+    # image: caddybuilds/caddy-cloudflare:latest
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      # This uses the example Caddy file in the data folder.
+      - ./data/Caddyfile:/etc/caddy/Caddyfile:ro
+      # Mount the caddy folder for the data
+      - ./data/caddy:/data
+      # Mount the logs folder
+      - ./logs:/var/log/caddy
+      - ./config/caddy:/config
+
+      # Mount the static error pages
+      - ./data/pages/error:/opt/caddy/pages/error:ro
+
+      # Mount the website download folder
+      # Optional, this is for if you have a download page or something that you want to use.
+      # This uses a download example endpoint in the Caddyfile.
+      # - /mnt/website_files/download:/mnt/website_files/download:ro
+    
+    # Change the network here if using a different network.
+    networks:
+      - testing
+    environment:
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+
+
+# Set this up if you use volumes, I normally use bind mounts for easier backups.
+# volumes:
+#   caddy_data:
+#     external: true
+#   caddy_config:
+
+# Set the network name here.
+networks:
+  testing:
+    external: true

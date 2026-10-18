@@ -2,10 +2,53 @@
 # Caddy Cloudflare
 This fork adds the rate limit plugin, and the ipfilter plugin.
 
-I need to test this a bit.
-
 Here is a link to the original project
 * https://github.com/CaddyBuilds/caddy-cloudflare
+
+This has been tested and works fine for my website
+
+Example docker-compose located in [docker-compose.yml](docker-compose.yml)
+
+Here is a bit of a guide on logging for Caddy
+* https://betterstack.com/community/guides/logging/caddy-logging/
+
+I have moved the `Caddyfile_global` file into `data/caddy/Caddyfile` and I setup some more examples to use in it.
+
+**New check ips script**
+I have a added the [check-ips.py](scripts/check-ips.py) script which allows you to view the IPs from the log files, it doesn't require any dependencies and works with Python 3.
+
+## New Caddyfile
+
+By default my Caddyfile is setup to work more with Cloudflare, and blocks any requests not coming from Cloudflare.
+
+This is what you can do to block any requests not coming in from Cloudflare, so if your domain is git.example.com and someone connects to the ip directly it will give them a 403.
+
+```conf
+# Deny requests that are not proxied by Cloudflare.
+# This will block anything not coming in from Cloudflare with a 403 by default.
+# If you aren't using Cloudflare, this should be disabled.
+:80, :443 {
+	@notFromCF not remote_ip 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 104.16.0.0/13 104.24.0.0/14 108.162.192.0/18 131.0.72.0/22 141.101.64.0/18 162.158.0.0/15 172.64.0.0/13 173.245.48.0/20 188.114.96.0/20 190.93.240.0/20 197.234.240.0/22 198.41.128.0/17 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32 2405:8100::/32 2a06:98c0::/29 2c0f:f248::/32
+	@notHost not host git.example.com
+
+	respond @notFromCF "Forbidden: connect via Cloudflare" 403
+	respond @notHost "Forbidden host" 403
+
+	# Normal site behavior for allowed hostnames:
+	handle @notFromCF {
+		# nothing
+	}
+}
+```
+
+## New error pages
+
+Now I have a basic 404 error page in [404.html](data/pages/error/404.html).
+
+This can display a 404 error for some of the routes, and can also be used for other error pages just by changing the text.
+
+The error page was created from this codepen link
+* https://codepen.io/selcukcura/pen/XeQpEv
 
 ----
 
