@@ -1,5 +1,5 @@
 # Build stage
-ARG CADDY_VERSION
+ARG CADDY_VERSION=2.11.7
 FROM caddy:${CADDY_VERSION}-builder AS builder
 
 # Build Caddy with the Cloudflare DNS module
